@@ -21,6 +21,6 @@ function findBy(body) {
     return db('users').where(body)
 }
 
-function findById() {
+function findById(id) {
     return db('users').where({ id }).first()
 }
