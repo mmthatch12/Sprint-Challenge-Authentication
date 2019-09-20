@@ -3,7 +3,7 @@ const db = require('../database/dbConfig')
 
 describe('auth-model', () => {
     beforeEach(async () => {
-        await db('shoes').truncate()
+        await db('users').truncate()
     })
 
     describe('add()', () => {
