@@ -1,39 +1,7 @@
 const request = require('supertest');
-const authRoute = require('./auth-router')
+const server = require('../api/server')
 const logi = require('./auth-model')
 const db = require('../database/dbConfig')
-
-// describe('server.js', () => {
-//     describe('post /register', () => {
-//       it('returns 200 OK', () => {
-//         // make a GET request to the / endpoint on the server
-//         return request(authRoute)
-//           .post('/register')
-//           .then(res => {
-//             // assert that we get an http status code 200
-//             expect(res.status).toBe(201);
-//           });
-//       });
-  
-//       it("should return { api: 'up' }", async () => {
-//         const res = await request(authRoute).get('/');
-  
-//         expect(res.body.api).toBe('up');
-//         expect(res.body).toEqual({ api: 'up' });
-//       });
-  
-//       it('returns JSON', done => {
-//         request(server)
-//           .get('/')
-//           .then(res => {
-//             // assert that we get an http status code 200
-//             expect(res.type).toMatch(/json/i);
-//             done();
-//           });
-//       });
-//     });
-//   });
-
 
 describe('auth-model', () => {
     beforeEach(async () => {
@@ -62,5 +30,36 @@ describe('auth-model', () => {
             expect(user).toHaveLength(2)
         })
     })
-    
+
 })
+
+describe('server.js', () => {
+    describe('post /register', () => {
+      it('returns 500 without auth', () => {
+        // make a GET request to the / endpoint on the server
+        return request(server)
+          .post('/api/auth/register')
+          .then(res => {
+            expect(res.status).toBe(500);
+          });
+      });
+  
+      it('returns 500 without auth', () => {
+        // make a GET request to the / endpoint on the server
+        return request(server)
+          .post('/api/auth/login')
+          .then(res => {
+            expect(res.status).toBe(500);
+          });
+      });
+  
+      it('returns text', done => {
+        request(server)
+          .get('/api/auth/login')
+          .then(res => {
+            expect(res.type).toMatch(/text/i);
+            done();
+          });
+      });
+    });
+  });
