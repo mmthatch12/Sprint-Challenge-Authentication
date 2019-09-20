@@ -8,7 +8,7 @@ module.exports = {
 }
 
 async function add(body) {
-    const [id] = await db('users').insert(body)
+    const [id] = await db('users').insert(body, 'id')
 
     return findById(id)
 }
