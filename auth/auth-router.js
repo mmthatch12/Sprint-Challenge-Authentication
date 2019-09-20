@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const tokenG = require('../config/token-generator')
 
 const Users = require('./auth-model')
 
@@ -30,7 +30,7 @@ router.post('/login', (req, res) => {
     .first()
     .then(uesr => {
       if(user && bcrypt.compareSync(password, user.password)){
-        const token = generateToken(user)
+        const token = tokenG.tokenGenerator(user)
         res.status(200).json({ message: `Welcome ${user.username}!`, token })
       } else {
         res.status(401).json({ message: 'You are not authorized'})
